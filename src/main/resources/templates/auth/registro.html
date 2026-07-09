@@ -1,0 +1,73 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="~{general/fragmentos :: head}"></head>
+    <body>
+        <section class="container-fluid p-0">
+            <div class="row min-vh-100">
+                <div class="col-lg-4 brand-panel auth-side d-flex flex-column">
+                    <div class="fw-bold fs-4 mb-auto">CitaMed</div>
+                    <div>
+                        <h1>Cree su cuenta de paciente.</h1>
+                        <p class="mt-3 opacity-75">Complete el formulario y acceda a su área personal de citas en minutos.</p>
+                        <div class="mt-4 d-grid gap-3">
+                            <div><span class="badge rounded-circle bg-white bg-opacity-25 me-3 p-2">1</span> Sus datos personales</div>
+                            <div><span class="badge rounded-circle bg-white bg-opacity-25 me-3 p-2">2</span> Acceso y contraseña</div>
+                            <div><span class="badge rounded-circle bg-white bg-opacity-25 me-3 p-2">3</span> ¡Listo para reservar!</div>
+                        </div>
+                    </div>
+                    <div class="mt-auto"></div>
+                </div>
+                <div class="col-lg-8 p-5 d-flex align-items-center">
+                    <form class="was-validated" th:action="@{/registro/guardar}" th:object="${paciente}" method="post">
+                        <h2 class="h4 fw-bold mb-2">Información personal</h2>
+                        <p class="text-secondary">Complete todos los campos para crear su cuenta.</p>
+                        <hr class="my-4"/>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Nombre</label>
+                                <input class="form-control auth-form-control" th:field="*{usuario.nombre}" placeholder="Nombre(s)" required="true"/>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Correo electrónico</label>
+                                <input type="email" class="form-control auth-form-control" th:field="*{usuario.correo}" placeholder="paciente@citamed.cr" required="true"/>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Fecha de nacimiento</label>
+                                <input type="date" class="form-control auth-form-control" th:field="*{fechaNacimiento}"/>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Número de cédula</label>
+                                <input class="form-control auth-form-control" th:field="*{cedula}"
+                                       placeholder="0-0000-0000" required="true"/>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Teléfono</label>
+                                <input class="form-control auth-form-control" th:field="*{telefono}" placeholder="8888-8888"/>
+                            </div>
+                        </div>
+                        <hr class="my-4"/>
+                        <h2 class="h5 fw-bold">Acceso al sistema</h2>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Contraseña</label>
+                                <input type="password" class="form-control auth-form-control" th:field="*{usuario.contrasena}" placeholder="••••••••" required="true"/>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Confirmar contraseña</label>
+                                <input type="password" class="form-control auth-form-control"
+                                       name="confirmar" placeholder="••••••••" required="true"/>
+                            </div>
+                        </div>
+                        <div class="mt-4 d-grid">
+                            <button class="btn btn-primary py-2 fw-semibold" type="submit">
+                                Crear mi cuenta
+                            </button>
+                        </div>
+                        <p class="text-center text-secondary mt-3">¿Ya tiene cuenta? <a class="fw-semibold text-decoration-none" th:href="@{/login}">Iniciar sesión</a></p>
+                    </form>
+                    <section th:replace="~{general/fragmentos :: mostrarToast}"></section>
+                </div>
+            </div>
+        </section>
+    </body>
+</html>

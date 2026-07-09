@@ -1,0 +1,42 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="~{general/fragmentos :: head}"></head>
+    <body class="app-body">
+        <div class="container-fluid p-0">
+            <div class="d-flex">
+                <aside th:replace="~{general/fragmentos :: sidebar('PACIENTE','citas')}"></aside>
+                <main class="flex-grow-1 content-area">
+                    <h1 class="h3 mb-3">Mis citas</h1>
+                    <div class="card soft-card">
+                        <div class="card-body">
+                            <div th:if="${citas != null and !citas.empty}" class="list-group">
+                                <div class="list-group-item" th:each="c : ${citas}">
+                                    <div class="d-flex justify-content-between align-items-start gap-3">
+                                        <div>
+                                            <h2 class="h6 mb-1">[[${c.doctor.usuario.nombre}]] - [[${c.doctor.especialidad.nombre}]]</h2>
+                                            <p class="mb-1">[[${c.fecha}]] a las [[${c.hora}]]</p>
+                                            <p class="mb-0 text-secondary">[[${c.motivo}]]</p>
+                                            <p class="mb-0" th:if="${c.notas != null}">Nota: [[${c.notas}]]</p>
+                                        </div>
+                                        <div class="text-end">
+                                            <span th:if="${c.estado.name() == 'CANCELADA'}" class="badge status-badge text-bg-danger">[[${c.estado}]]</span>
+                                            <span th:if="${c.estado.name() == 'COMPLETADA'}" class="badge status-badge text-bg-success">[[${c.estado}]]</span>
+                                            <span th:if="${c.estado.name() != 'CANCELADA' and c.estado.name() != 'COMPLETADA'}" class="badge status-badge text-bg-warning">[[${c.estado}]]</span>
+                                            <form class="mt-2" th:if="${c.cancelable}"
+                                                  th:action="@{/paciente/citas/cancelar}" method="post">
+                                                <input type="hidden" name="idCita" th:value="${c.idCita}"/>
+                                                <button class="btn btn-sm btn-outline-danger" type="submit">Cancelar</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <p th:if="${citas == null or citas.empty}" class="text-center text-secondary">[[#{lista.vacia}]]</p>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+        <section th:replace="~{general/fragmentos :: mostrarToast}"></section>
+    </body>
+</html>
