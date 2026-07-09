@@ -1,0 +1,61 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="~{general/fragmentos :: head}"></head>
+    <body class="app-body">
+        <div class="container-fluid p-0">
+            <div class="d-flex">
+                <aside th:replace="~{general/fragmentos :: sidebar('DOCTOR','bloquear')}"></aside>
+                <main class="flex-grow-1 content-area">
+                    <h1 class="h5 fw-bold mb-5">Bloquear Horario</h1>
+                    <section class="card soft-card">
+                        <div class="card-header bg-white">
+                            <h2 class="h5 fw-bold mb-0">Registrar no disponibilidad</h2>
+                        </div>
+                        <div class="card-body">
+                            <form class="row g-3 was-validated" th:action="@{/doctor/bloquear/guardar}" method="post">
+                                <div class="col-md-6">
+                                    <label class="form-label">Doctor</label>
+                                    <input class="form-control" th:value="${doctorActual.usuario.nombre}" readonly="true"/>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Fecha inicio</label>
+                                    <input class="form-control" name="fechaInicio" type="datetime-local" required="true"/>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Fecha fin</label>
+                                    <input class="form-control" name="fechaFin" type="datetime-local" required="true"/>
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label">Motivo</label>
+                                    <input class="form-control" name="motivo" placeholder="Vacaciones, capacitación u otra razón" required="true"/>
+                                </div>
+                                <div class="col-12">
+                                    <button class="btn btn-primary" type="submit">Guardar bloqueo</button>
+                                </div>
+                            </form>
+                        </div>
+                    </section>
+                    <section class="card soft-card mt-4">
+                        <div class="card-header bg-white">
+                            <h2 class="h5 fw-bold mb-0">Horarios bloqueados</h2>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-hover align-middle">
+                                <thead><tr><th>Inicio</th><th>Fin</th><th>Motivo</th></tr></thead>
+                                <tbody>
+                                    <tr th:each="b : ${bloqueos}">
+                                        <td>[[${b.fechaInicio}]]</td>
+                                        <td>[[${b.fechaFin}]]</td>
+                                        <td>[[${b.motivo}]]</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <p th:if="${bloqueos == null or bloqueos.empty}" class="text-center text-secondary">[[#{lista.vacia}]]</p>
+                        </div>
+                    </section>
+                </main>
+            </div>
+        </div>
+        <section th:replace="~{general/fragmentos :: mostrarToast}"></section>
+    </body>
+</html>

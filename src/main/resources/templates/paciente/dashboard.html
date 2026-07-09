@@ -1,0 +1,67 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="~{general/fragmentos :: head}"></head>
+    <body class="app-body">
+        <div class="container-fluid p-0">
+            <div class="d-flex">
+                <aside th:replace="~{general/fragmentos :: sidebar('PACIENTE','inicio')}"></aside>
+                <main class="flex-grow-1 content-area">
+                    <h1 class="h5 fw-bold mb-5">Bienvenido, [[${nombrePaciente}]]</h1>
+                    <section class="figma-banner p-4 mb-4">
+                        <h2 class="h4 fw-bold">¡Buenos días, [[${nombrePaciente}]]!</h2>
+                        <p class="mb-0 opacity-75">Consulte sus próximas citas o reserve un nuevo espacio.</p>
+                    </section>
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <div class="card soft-card h-100">
+                                <div class="card-body">
+                                    <div class="mini-line bg-primary mb-3"></div>
+                                    <h2 class="h5 fw-bold">Reservar cita</h2>
+                                    <p>Seleccione especialidad, médico y horario disponible.</p>
+                                    <a class="btn btn-primary" th:href="@{/paciente/citas/reservar}">Ir →</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card soft-card h-100">
+                                <div class="card-body">
+                                    <div class="mini-line bg-success mb-3"></div>
+                                    <h2 class="h5 fw-bold">Mis citas</h2>
+                                    <p>Revise citas pendientes, confirmadas y completadas.</p>
+                                    <a class="btn btn-success" th:href="@{/paciente/citas/listado}">Ir →</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card soft-card h-100">
+                                <div class="card-body">
+                                    <div class="mini-line bg-secondary mb-3"></div>
+                                    <h2 class="h5 fw-bold">Mi perfil</h2>
+                                    <p>Actualiza tus datos personales.</p>
+                                    <a class="btn btn-secondary" th:href="@{/paciente/perfil}">Ir →</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <section class="card soft-card mt-4">
+                        <div class="card-body">
+                            <h2 class="h5 fw-bold mb-3">Próxima cita</h2>
+                            <hr/>
+                            <div th:if="${proximaCita != null}" class="alert alert-primary d-flex justify-content-between align-items-center mb-0">
+                                <div>
+                                    <strong>[[${proximaCita.doctor.usuario.nombre}]] — [[${proximaCita.doctor.especialidad.nombre}]]</strong>
+                                    <div>[[${proximaCita.fecha}]] · [[${proximaCita.hora}]]</div>
+                                </div>
+                                <form th:action="@{/paciente/citas/cancelar}" method="post">
+                                    <input type="hidden" name="idCita" th:value="${proximaCita.idCita}"/>
+                                    <button class="btn btn-sm btn-danger" type="submit">Cancelar</button>
+                                </form>
+                            </div>
+                            <p th:if="${proximaCita == null}" class="text-secondary mb-0">Sin citas registradas.</p>
+                        </div>
+                    </section>
+                </main>
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,57 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="~{general/fragmentos :: head}"></head>
+    <body class="app-body">
+        <div class="container-fluid p-0">
+            <div class="d-flex">
+                <aside th:replace="~{general/fragmentos :: sidebar('ADMIN','dashboard')}"></aside>
+                <main class="flex-grow-1 content-area">
+                    <h1 class="h3 mb-3">Dashboard administrativo</h1>
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-3">
+                            <div class="card soft-card"><div class="card-body">
+                                <span class="text-secondary">Citas hoy</span>
+                                <h2 class="display-6">[[${citasHoy}]]</h2>
+                            </div></div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card soft-card"><div class="card-body">
+                                <span class="text-secondary">Pendientes</span>
+                                <h2 class="display-6">[[${citasPendientes}]]</h2>
+                            </div></div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card soft-card"><div class="card-body">
+                                <span class="text-secondary">Médicos activos</span>
+                                <h2 class="display-6">[[${totalMedicos}]]</h2>
+                            </div></div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card soft-card"><div class="card-body">
+                                <span class="text-secondary">Pacientes activos</span>
+                                <h2 class="display-6">[[${totalPacientes}]]</h2>
+                            </div></div>
+                        </div>
+                    </div>
+                    <section class="card soft-card">
+                        <div class="card-header"><h2 class="h5 mb-0">Citas recientes</h2></div>
+                        <div class="card-body">
+                            <table class="table table-hover">
+                                <thead><tr><th>Paciente</th><th>Médico</th><th>Fecha</th><th>Hora</th><th>Estado</th></tr></thead>
+                                <tbody>
+                                    <tr th:each="c : ${citas}">
+                                        <td>[[${c.paciente.usuario.nombre}]]</td>
+                                        <td>[[${c.doctor.usuario.nombre}]]</td>
+                                        <td>[[${c.fecha}]]</td>
+                                        <td>[[${c.hora}]]</td>
+                                        <td><span class="badge text-bg-secondary">[[${c.estado}]]</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+                </main>
+            </div>
+        </div>
+    </body>
+</html>
